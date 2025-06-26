@@ -1,0 +1,586 @@
+<!-- <!DOCTYPE html>
+<html>
+<head>
+    <title>Doc to PPT AI</title>
+</head>
+<body>
+    <h1>Upload Your Document</h1>
+    <form action="/" method="POST" enctype="multipart/form-data">
+        <input type="file" name="file" required>
+
+        <label for="template">Choose a PPT Template:</label>
+    <select name="template">
+        <option value="classic">Classic</option>
+        <option value="modern">Modern</option>
+        <option value="elegant">Elegant</option>
+        <option value="minimal">Minimal</option>
+        <option value="dark">Dark Mode</option>
+        <option value="education">education</option>
+        <option value="history">History</option>
+        <option value="wavy">wavy</option>
+    </select><br><br>
+
+    <button type="submit">Generate PPT</button>
+    </form>
+</body>
+</html> -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DocToPPT - Transform Documents to Presentations Instantly</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/magic-text@1.1.1/dist/magic-text.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <div class="hero">
+            <div class="ai-badge">
+                <i class="fas fa-robot"></i>
+                <span>AI-Powered</span>
+            </div>
+            
+            <div class="floating-elements">
+                <!-- Floating elements will be added by JavaScript -->
+            </div>
+            
+            <div class="content-wrapper">
+                <div class="logo">
+                    <span class="logo-base">Prastuti </span><span class="logo-ai" id="sparkly-ai">Ai</span>
+                </div>
+                <h1 class="tagline">Transform Documents into Stunning Presentations in Seconds</h1>
+                <p class="description">Leverage the power of <span class="ai-highlight">AI</span> to automatically convert your documents into professionally designed PowerPoint presentations.</p>
+                
+                <div class="step-indicators">
+                    <div class="step active" data-step="1">
+                        <div class="step-number">1</div>
+                        <div class="step-label">Upload</div>
+                    </div>
+                    <div class="step-connector"></div>
+                    <div class="step" data-step="2">
+                        <div class="step-number">2</div>
+                        <div class="step-label">Choose Template</div>
+                    </div>
+                    <div class="step-connector"></div>
+                    <div class="step" data-step="3">
+                        <div class="step-number">3</div>
+                        <div class="step-label">Convert</div>
+                    </div>
+                </div>
+                
+                <form action="/" method="POST" enctype="multipart/form-data" id="converter-form">
+                    <!-- Step 1: Upload File -->
+                    <div class="step-content active" id="step-1">
+                        <div class="upload-container">
+                            <h2 class="upload-heading">Upload Your Document</h2>
+                            <p class="upload-description">Choose a document file to convert into a presentation.</p>
+                            
+                            <div class="file-upload-wrapper">
+                                <input type="file" id="file-input" name="file" class="file-input" required>
+                                <label for="file-input" class="upload-button">
+                                    <i class="fas fa-cloud-upload-alt"></i> Select Document
+                                </label>
+                                <p class="file-selected" id="file-selected">No file selected</p>
+                            </div>
+                            
+                            <p class="supported-formats">Supported formats: .docx, .doc, .pdf, .txt (Max size: 25MB)</p>
+                            
+                            <button type="button" class="next-button" id="to-step-2" disabled>
+                                Next: Choose Template <i class="fas fa-arrow-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Step 2: Template Selection -->
+                    <div class="step-content" id="step-2">
+                        <div class="templates-container">
+                            <h2 class="section-heading">Choose a Template</h2>
+                            <p class="section-description">Select a design template for your presentation</p>
+                            
+                            <div class="template-cards">
+                                <div class="template-card">
+                                    <input type="radio" name="template" id="template-classic" value="classic" class="template-radio">
+                                    <label for="template-classic" class="template-card-inner">
+                                        <div class="template-preview classic-preview">
+                                            <div class="preview-slide">
+                                                <div class="preview-content"></div>
+                                            </div>
+                                        </div>
+                                        <div class="template-name">Classic</div>
+                                        <div class="template-description">Timeless and professional design with clean lines</div>
+                                    </label>
+                                </div>
+                                
+                                <div class="template-card">
+                                    <input type="radio" name="template" id="template-business" value="business" class="template-radio">
+                                    <label for="template-business" class="template-card-inner">
+                                        <div class="template-preview business-preview">
+                                            <div class="preview-slide">
+                                                <div class="preview-content"></div>
+                                            </div>
+                                        </div>
+                                        <div class="template-name">Business</div>
+                                        <div class="template-description">Professional layout optimized for corporate proposals</div>
+                                    </label>
+                                </div>
+                                
+                                <div class="template-card">
+                                    <input type="radio" name="template" id="template-medical" value="medical" class="template-radio">
+                                    <label for="template-medical" class="template-card-inner">
+                                        <div class="template-preview medical-preview">
+                                            <div class="preview-slide">
+                                                <div class="preview-content"></div>
+                                            </div>
+                                        </div>
+                                        <div class="template-name">Medical</div>
+                                        <div class="template-description">Clean design optimized for healthcare presentations</div>
+                                    </label>
+                                </div>
+                                
+                                <div class="template-card">
+                                    <input type="radio" name="template" id="template-wavy" value="wavy" class="template-radio">
+                                    <label for="template-wavy" class="template-card-inner">
+                                        <div class="template-preview wavy-preview">
+                                            <div class="preview-slide">
+                                                <div class="preview-content"></div>
+                                            </div>
+                                        </div>
+                                        <div class="template-name">Wavy</div>
+                                        <div class="template-description">Dynamic flowing design for creative presentations</div>
+                                    </label>
+                                </div>
+
+                                <div class="template-card">
+                                    <input type="radio" name="template" id="template-education" value="education" class="template-radio">
+                                    <label for="template-education" class="template-card-inner">
+                                        <div class="template-preview education-preview">
+                                            <div class="preview-slide">
+                                                <div class="preview-content"></div>
+                                            </div>
+                                        </div>
+                                        <div class="template-name">Education</div>
+                                        <div class="template-description">Structured layout ideal for academic and learning materials</div>
+                                    </label>
+                                </div>
+                                
+                                <div class="template-card">
+                                    <input type="radio" name="template" id="template-history" value="history" class="template-radio">
+                                    <label for="template-history" class="template-card-inner">
+                                        <div class="template-preview history-preview">
+                                            <div class="preview-slide">
+                                                <div class="preview-content"></div>
+                                            </div>
+                                        </div>
+                                        <div class="template-name">History</div>
+                                        <div class="template-description">Vintage style perfect for historical or educational content</div>
+                                    </label>
+                                </div>
+                                
+                                
+                            </div>
+                            
+                            <div class="step-navigation">
+                                <button type="button" class="back-button" id="to-step-1">
+                                    <i class="fas fa-arrow-left"></i> Back
+                                </button>
+                                <button type="button" class="next-button" id="to-step-3" disabled>
+                                    Next: Convert <i class="fas fa-arrow-right"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Step 3: Convert -->
+                    <div class="step-content" id="step-3">
+                        <div class="convert-container">
+                            <h2 class="section-heading">Ready to Convert</h2>
+                            <p class="section-description">Your document and template are ready for conversion</p>
+                            
+                            <div class="summary-box">
+                                <div class="summary-item">
+                                    <i class="fas fa-file-alt"></i>
+                                    <div class="summary-text">
+                                        <strong>Document:</strong> <span id="selected-file-name">No file selected</span>
+                                    </div>
+                                </div>
+                                <div class="summary-item">
+                                    <i class="fas fa-palette"></i>
+                                    <div class="summary-text">
+                                        <strong>Template:</strong> <span id="selected-template-name">None selected</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="step-navigation">
+                                <button type="button" class="back-button" id="to-step-2-from-3">
+                                    <i class="fas fa-arrow-left"></i> Back
+                                </button>
+                                <button type="submit" class="convert-button">
+                                    <i class="fas fa-magic"></i> Generate Presentation
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                
+                <div class="features">
+                    <div class="feature">
+                        <i class="fas fa-bolt"></i>
+                        <h3>Lightning Fast</h3>
+                        <p>Convert documents to presentations in seconds, not hours.</p>
+                    </div>
+                    <div class="feature">
+                        <i class="fas fa-magic"></i>
+                        <h3>Smart Formatting</h3>
+                        <p>AI automatically identifies key points and creates beautiful slides.</p>
+                    </div>
+                    <div class="feature">
+                        <i class="fas fa-palette"></i>
+                        <h3>Custom Themes</h3>
+                        <p>Choose from a variety of professional themes or create your own.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Add floating elements
+        const floatingElements = document.querySelector('.floating-elements');
+        for (let i = 0; i < 15; i++) {
+            const element = document.createElement('div');
+            element.classList.add('floating-element');
+            const size = Math.random() * 30 + 10;
+            element.style.width = `${size}px`;
+            element.style.height = `${size}px`;
+            element.style.top = `${Math.random() * 100}%`;
+            element.style.left = `${Math.random() * 100}%`;
+            element.style.animationDuration = `${Math.random() * 20 + 10}s`;
+            element.style.animationDelay = `${Math.random() * 5}s`;
+            floatingElements.appendChild(element);
+        }
+        
+        // File input handling
+        const allowedTypes = ['pdf', 'doc', 'docx', 'txt'];
+        const fileInput = document.getElementById('file-input');
+        const fileSelected = document.getElementById('file-selected');
+        const toStep2Button = document.getElementById('to-step-2');
+
+        fileInput.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            
+            if (!file) {
+                fileSelected.textContent = 'No file selected';
+                document.getElementById('selected-file-name').textContent = 'No file selected';
+                toStep2Button.setAttribute('disabled', '');
+                return;
+            }
+
+            const ext = file.name.split('.').pop().toLowerCase();
+            if (!allowedTypes.includes(ext)) {
+                showError("Only PDF, DOC, DOCX, or TXT files are allowed.");
+                e.target.value = ''; // clear the input
+                fileSelected.textContent = 'No file selected';
+                document.getElementById('selected-file-name').textContent = 'No file selected';
+                toStep2Button.setAttribute('disabled', '');
+                return;
+            }
+
+            // ✅ Valid file: show filename and enable next
+            fileSelected.textContent = file.name;
+            document.getElementById('selected-file-name').textContent = file.name;
+            toStep2Button.removeAttribute('disabled');
+        });
+
+        
+        fileInput.addEventListener('change', function(e) {
+            if (e.target.files.length > 0) {
+                const fileName = e.target.files[0].name;
+                fileSelected.textContent = fileName;
+                document.getElementById('selected-file-name').textContent = fileName;
+                toStep2Button.removeAttribute('disabled');
+            } else {
+                fileSelected.textContent = 'No file selected';
+                document.getElementById('selected-file-name').textContent = 'No file selected';
+                toStep2Button.setAttribute('disabled', '');
+            }
+        });
+        
+        // Template selection handling
+        const templateRadios = document.querySelectorAll('.template-radio');
+        const toStep3Button = document.getElementById('to-step-3');
+        const selectedTemplateName = document.getElementById('selected-template-name');
+        
+        templateRadios.forEach(radio => {
+            radio.addEventListener('change', function() {
+                // Enable next button
+                toStep3Button.removeAttribute('disabled');
+                
+                // Update selected template in summary
+                const templateName = this.value.charAt(0).toUpperCase() + this.value.slice(1);
+                selectedTemplateName.textContent = templateName;
+                
+                // Add selected class to card
+                document.querySelectorAll('.template-card').forEach(card => {
+                    card.classList.remove('selected');
+                });
+                this.parentElement.classList.add('selected');
+            });
+        });
+        
+        // Step navigation
+        document.getElementById('to-step-2').addEventListener('click', function() {
+            showStep(2);
+        });
+        
+        document.getElementById('to-step-1').addEventListener('click', function() {
+            showStep(1);
+        });
+        
+        document.getElementById('to-step-3').addEventListener('click', function() {
+            showStep(3);
+        });
+        
+        document.getElementById('to-step-2-from-3').addEventListener('click', function() {
+            showStep(2);
+        });
+        
+        function showStep(stepNumber) {
+            // Hide all steps
+            document.querySelectorAll('.step-content').forEach(step => {
+                step.classList.remove('active');
+            });
+            
+            // Show the requested step
+            document.getElementById(`step-${stepNumber}`).classList.add('active');
+            
+            // Update step indicators
+            document.querySelectorAll('.step').forEach(step => {
+                const dataStep = parseInt(step.getAttribute('data-step'));
+                if (dataStep <= stepNumber) {
+                    step.classList.add('active');
+                } else {
+                    step.classList.remove('active');
+                }
+            });
+            
+            // Scroll to top of content
+            document.querySelector('.content-wrapper').scrollIntoView({ behavior: 'smooth' });
+        }
+
+
+        
+
+
+        document.querySelector('#converter-form').addEventListener('submit', function(e) {
+            e.preventDefault(); // prevent default form submission
+
+            // Show loading overlay
+            const loadingOverlay = document.createElement('div');
+            loadingOverlay.className = 'loading-overlay';
+            loadingOverlay.innerHTML = `
+                <div class="loading-container">
+                    <div class="loading-spinner"></div>
+                    <h3>Generating your presentation</h3>
+                    <div class="typewriter-text"></div>
+                </div>
+            `;
+            document.body.appendChild(loadingOverlay);
+            document.body.classList.add('blurred-background');
+
+            // Typewriter animation
+            const steps = [
+                "Analyzing document...",
+                "Extracting key points...",
+                "Generating slides...",
+                "Styling template...",
+                "Finalizing presentation..."
+            ];
+            const typewriter = document.querySelector('.typewriter-text');
+            let index = 0, char = 0, deleting = false, pause = false;
+
+            const interval = setInterval(() => {
+                if (pause) return;
+
+                const current = steps[index];
+                if (!deleting) {
+                    char++;
+                    typewriter.textContent = current.substring(0, char);
+                    if (char === current.length) {
+                        pause = true;
+                        setTimeout(() => {
+                            deleting = true;
+                            pause = false;
+                        }, 1500);
+                    }
+                } else {
+                    char--;
+                    typewriter.textContent = current.substring(0, char);
+                    if (char === 0) {
+                        deleting = false;
+                        index = (index + 1) % steps.length;
+                    }
+                }
+            }, 80);
+
+            // Prepare file upload
+            const form = e.target;
+            const formData = new FormData(form);
+
+            fetch('/', {
+                method: 'POST',
+                body: formData
+            })
+            .then(res => {
+                if (!res.ok) throw new Error("Failed to generate PPT");
+                return res.blob(); // Get PPT file as blob
+            })
+            .then(blob => {
+                clearInterval(interval);
+                const url = window.URL.createObjectURL(blob);
+
+                const file = fileInput.files[0];
+                const originalFileName = file.name.split('.').slice(0, -1).join('.') || 'presentation';
+                const outputFileName = originalFileName + ".pptx";
+
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = outputFileName;
+                document.body.appendChild(a);
+                a.click();
+                a.remove();
+
+
+                // Replace loader with success message
+                const loaderBox = document.querySelector('.loading-container');
+                loaderBox.innerHTML = `
+                    <div class="success-message">
+                        <i class="fas fa-check-circle"></i>
+                        <h2>Presentation Generated!</h2>
+                        <p>Your download has started</p>
+                    </div>
+                `;
+
+                // Remove overlay after fade-out
+                setTimeout(() => {
+                    document.body.removeChild(loadingOverlay);
+                    document.body.classList.remove('blurred-background');
+                }, 4000); // 2s show + 1s fade
+
+            })
+            .catch(err => {
+                clearInterval(interval);
+                typewriter.textContent = "Something went wrong!";
+                setTimeout(() => {
+                    document.body.removeChild(loadingOverlay);
+                    document.body.classList.remove('blurred-background');
+                }, 2000);
+            });
+        });
+
+        function showError(message) {
+            const errorOverlay = document.createElement('div');
+            errorOverlay.className = 'loading-overlay';
+            errorOverlay.innerHTML = `
+                <div class="loading-container error-style">
+                    <i class="fas fa-times-circle" style="font-size: 48px; color: #ff4c4c; margin-bottom:10px;"></i>
+                    <p style="color:white;">${message}</p>
+                </div>
+            `;
+            document.body.appendChild(errorOverlay);
+            document.body.classList.add('blurred-background');
+            setTimeout(() => {
+                document.body.removeChild(errorOverlay);
+                document.body.classList.remove('blurred-background');
+            }, 3000);
+        }
+        
+        const sparklyElement = document.getElementById('sparkly-ai');
+        
+        // Create a sparkle element
+        function createSparkle() {
+            const sparkle = document.createElement('span');
+            sparkle.className = 'sparkle';
+            
+            // Random sparkle character - various star shapes
+            const starShapes = ['✦', '✧', '✴', '⋆'];
+            sparkle.textContent = starShapes[Math.floor(Math.random() * starShapes.length)];
+            
+            // Get element dimensions
+            const elementWidth = sparklyElement.offsetWidth;
+            const elementHeight = sparklyElement.offsetHeight;
+            
+            // Random position fully around the AI text (not just above)
+            const size = 6 + Math.random() * 12;
+            
+            let offsetX, offsetY;
+            
+            const position = Math.floor(Math.random() * 8);
+            
+            switch(position) {
+                case 0: // top
+                    offsetX = Math.random() * elementWidth;
+                    offsetY = -8 - Math.random() * 5;
+                    break;
+                case 1: // right
+                    offsetX = elementWidth + Math.random() * 8;
+                    offsetY = Math.random() * elementHeight;
+                    break;
+                case 2: // bottom
+                    offsetX = Math.random() * elementWidth;
+                    offsetY = elementHeight + Math.random() * 3;
+                    break;
+                case 3: // left
+                    offsetX = -8 - Math.random() * 5;
+                    offsetY = Math.random() * elementHeight;
+                    break;
+                case 4: // top-right
+                    offsetX = elementWidth + Math.random() * 5;
+                    offsetY = -5 - Math.random() * 5;
+                    break;
+                case 5: // bottom-right
+                    offsetX = elementWidth + Math.random() * 4;
+                    offsetY = elementHeight + Math.random() * 3;
+                    break;
+                case 6: // bottom-left
+                    offsetX = -5 - Math.random() * 4;
+                    offsetY = elementHeight + Math.random() * 3;
+                    break;
+                case 7: // top-left
+                    offsetX = -8 - Math.random() * 5;
+                    offsetY = -5 - Math.random() * 5;
+                    break;
+            }
+            
+            // Apply styles
+            sparkle.style.color = `hsl(${Math.random() * 360}deg, 95%, 90%)`;
+            sparkle.style.fontSize = `${size}px`;
+            sparkle.style.left = `${offsetX}px`;
+            sparkle.style.top = `${offsetY}px`;
+            
+            // Add to the element and remove after animation
+            sparklyElement.appendChild(sparkle);
+            setTimeout(() => sparkle.remove(), 2000);
+        }
+        
+        // Create sparkles periodically (slower rate)
+        setInterval(createSparkle, 800);
+        
+        // Create extra sparkles when hovering
+        sparklyElement.addEventListener('mouseover', () => {
+            // Create a burst of sparkles
+            for (let i = 0; i < 8; i++) {
+                setTimeout(createSparkle, i * 150);
+            }
+        });
+
+    </script>
+</body>
+</html>
